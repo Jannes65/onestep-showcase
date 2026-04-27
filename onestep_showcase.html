@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="OneStep" />
+<meta name="theme-color" content="#0B0B0F" />
+<title>OneStep — Show & Tell</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=JetBrains+Mono:wght@400;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg: #0B0B0F;
+  --bg-2: #14141B;
+  --surface: #1B1B24;
+  --line: #2A2A36;
+  --ink: #F5F1E8;
+  --ink-dim: #A6A1B0;
+  --accent: #F7931A;        /* Bitcoin orange — earned, not decorative */
+  --accent-soft: #2A1E10;
+  --green: #6BCB77;
+  --red: #FF6B6B;
+  --display: 'Fraunces', Georgia, serif;
+  --body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;}
+body{
+  font-family: var(--body);
+  background: var(--bg);
+  color: var(--ink);
+  overflow-x:hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+.app{
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: var(--bg);
+  position: relative;
+  padding-bottom: 84px;
+  border-left: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+}
+/* ---------- HEADER ---------- */
+header.top{
+  padding: 20px 22px 14px;
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(180deg, #14141B 0%, #0B0B0F 100%);
+  position: sticky; top:0; z-index:10;
+  backdrop-filter: blur(8px);
+}
+.brand-row{display:flex;align-items:center;gap:10px;}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent);}
+.brand{
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 22px;
+  letter-spacing: -0.5px;
+}
+.tagline{
+  font-size: 11.5px;
+  color: var(--ink-dim);
+  margin-top: 4px;
+  font-family: var(--mono);
+  letter-spacing: 0.3px;
+}
+.eyebrow{
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--accent);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+/* ---------- TAB CONTENT ---------- */
+.view{display:none;padding: 20px 22px 40px;animation: fade .3s ease;}
+.view.active{display:block;}
+@keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+
+h2.section-title{
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 26px;
+  line-height: 1.15;
+  letter-spacing: -0.6px;
+  margin-bottom: 6px;
+}
+h2.section-title em{
+  font-style: italic;
+  color: var(--accent);
+  font-weight: 400;
+}
+.lede{
+  color: var(--ink-dim);
+  font-size: 14px;
+  line-height: 1.55;
+  margin-bottom: 22px;
+}
+
+/* ---------- CARDS ---------- */
+.card{
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 14px;
+}
+.card h3{
+  font-family: var(--display);
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  letter-spacing: -0.2px;
+}
+.card p{
+  color: var(--ink-dim);
+  font-size: 13.5px;
+  line-height: 1.55;
+}
+.card .meta{
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin-bottom: 8px;
+}
+
+/* ---------- HERO PANEL (Overview tab) ---------- */
+.hero{
+  background: linear-gradient(135deg, #1B1B24 0%, #0B0B0F 100%);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 22px;
+  margin-bottom: 18px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before{
+  content:'';
+  position:absolute;
+  top:-40px;right:-40px;
+  width:160px;height:160px;
+  background: radial-gradient(circle, rgba(247,147,26,0.15) 0%, transparent 70%);
+}
+.hero h1{
+  font-family: var(--display);
+  font-size: 32px;
+  line-height: 1.05;
+  letter-spacing: -1px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.hero h1 em{
+  color: var(--accent);
+  font-style: italic;
+  font-weight: 400;
+}
+.hero p{
+  color: var(--ink-dim);
+  font-size: 14px;
+  line-height: 1.55;
+  max-width: 95%;
+}
+.hero-stats{
+  display:grid;
+  grid-template-columns: repeat(3,1fr);
+  gap:10px;
+  margin-top:18px;
+  padding-top:18px;
+  border-top: 1px solid var(--line);
+}
+.hero-stat .num{
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.4px;
+}
+.hero-stat .lbl{
+  font-family: var(--mono);
+  font-size: 9.5px;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 2px;
+}
+
+/* ---------- LIVE SCREEN REPLICAS (mirror real OneStep UI: cream + green) ---------- */
+:root{
+  --os-cream: #F5F1E8;
+  --os-cream-2: #FAF7F0;
+  --os-card: #FFFFFF;
+  --os-line: #E5E0D2;
+  --os-ink: #1B1B24;
+  --os-ink-2: #3A3730;
+  --os-mute: #6B6757;
+  --os-green: #2F6E4A;
+  --os-green-soft: #D9E8DD;
+  --os-green-bg: #ECF4EE;
+  --os-red-soft: #F8D7D7;
+  --os-red: #B83A3A;
+  --os-tan: #FFF4E0;
+  --os-tan-line: #F5D89B;
+}
+
+/* the phone-frame container */
+.screen{
+  background: var(--os-cream);
+  border-radius: 18px;
+  padding: 18px 16px 22px;
+  color: var(--os-ink);
+  font-family: var(--body);
+  margin-bottom: 16px;
+  border: 1px solid var(--line);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.35), inset 0 0 0 1px rgba(255,255,255,0.04);
+  position: relative;
+  overflow: hidden;
+}
+.screen-caption{
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--accent);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  padding-left: 2px;
+}
+.screen-icons{
+  display:flex;justify-content:flex-end;gap:14px;
+  color: var(--os-mute);
+  margin-bottom: 10px;
+}
+.screen-icons span{font-size:14px;}
+
+.os-card{
+  background: var(--os-card);
+  border-radius: 12px;
+  padding: 14px;
+  border: 1px solid var(--os-line);
+  margin-bottom: 10px;
+}
+
+/* Income statement header bar */
+.os-stmt-head{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom: 12px;
+  padding: 0 2px;
+}
+.os-stmt-head .ttl{
+  font-family: var(--display);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--os-ink);
+}
+.os-stmt-head .toggle{
+  font-size: 11px;
+  color: var(--os-mute);
+  display:flex;align-items:center;gap:4px;
+}
+
+/* Scope toggle Me / Household */
+.os-scope{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;
+  margin-bottom: 12px;
+}
+.os-scope .opt{
+  background: var(--os-cream-2);
+  border: 1px solid var(--os-line);
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  font-size: 11px;
+  color: var(--os-mute);
+  line-height: 1.3;
+}
+.os-scope .opt strong{display:block;color:var(--os-ink-2);font-size:12.5px;margin-bottom:2px;font-weight:600;}
+.os-scope .opt.on{
+  background: var(--os-green);
+  border-color: var(--os-green);
+  color: rgba(255,255,255,0.85);
+}
+.os-scope .opt.on strong{color:white;}
+
+.os-formula{
+  text-align:center;
+  font-size: 11.5px;
+  color: var(--os-mute);
+  margin-bottom: 10px;
+}
+
+/* Money in / out / left tiles */
+.os-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;}
+.os-tile{
+  border-radius: 12px;
+  padding: 12px 8px;
+  text-align: center;
+  border: 1px solid;
+}
+.os-tile .ic{font-size:14px;margin-bottom:4px;}
+.os-tile .lbl{font-size:10.5px;color:var(--os-mute);margin-bottom:3px;}
+.os-tile .val{font-family:var(--display);font-size:13px;font-weight:600;}
+.os-tile.in{background:var(--os-green-bg);border-color:var(--os-green-soft);}
+.os-tile.in .val{color:var(--os-green);}
+.os-tile.out{background:#FBE9E9;border-color:var(--os-red-soft);}
+.os-tile.out .val{color:var(--os-red);}
+.os-tile.left{background:var(--os-green-bg);border-color:var(--os-green-soft);}
+.os-tile.left .val{color:var(--os-green);}
+
+/* Bodyguard CTA button */
+.os-bg-btn{
+  background: var(--os-green);
+  color: white;
+  border-radius: 999px;
+  padding: 12px 20px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 14px;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  margin-bottom: 6px;
+}
+.os-bg-sub{
+  text-align:center;font-size:11px;color:var(--os-mute);margin-bottom:12px;
+}
+
+/* Section table */
+.os-rows{margin-top:8px;border-top:1px solid var(--os-line);}
+.os-row{
+  display:grid;grid-template-columns: 1fr 80px 50px 50px;
+  padding: 9px 2px;
+  font-size: 12.5px;
+  align-items: center;
+  border-bottom: 1px solid var(--os-line);
+  color: var(--os-ink-2);
+}
+.os-row .col-section{display:flex;align-items:center;gap:6px;}
+.os-row.head{font-size:9.5px;color:var(--os-mute);text-transform:uppercase;letter-spacing:1px;border-bottom:none;padding-bottom:4px;}
+.os-row .next{
+  background: var(--os-ink); color:white;
+  font-size:9px;padding:1px 6px;border-radius:4px;
+  text-transform: uppercase;letter-spacing:0.5px;
+}
+.os-row .income-val{color:var(--os-green);font-weight:600;}
+.os-row .col-current,.os-row .col-target,.os-row .col-change{text-align:right;font-size:11.5px;}
+.os-row .em{color:var(--os-mute);font-size:14px;line-height:1;}
+
+/* Vault card */
+.os-vault{
+  display:flex;align-items:center;justify-content:space-between;
+  padding: 14px;
+  background: var(--os-card);
+  border: 1px solid var(--os-line);
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+.os-vault .lt{display:flex;align-items:center;gap:12px;}
+.os-vault .ic{
+  width:38px;height:38px;border-radius:50%;
+  background: var(--os-green-bg);
+  color: var(--os-green);
+  display:flex;align-items:center;justify-content:center;font-size:18px;
+}
+.os-vault .ttl{font-family:var(--display);font-size:14.5px;font-weight:600;}
+.os-vault .sub{font-size:11px;color:var(--os-mute);margin-top:2px;}
+.os-vault .cta{font-size:12px;color:var(--os-green);font-weight:600;display:flex;align-items:center;gap:4px;}
+
+/* Today's task highlight card */
+.os-task{
+  border: 2px solid var(--os-green);
+  border-radius: 14px;
+  padding: 16px;
+  background: var(--os-cream-2);
+  display:flex;justify-content:space-between;align-items:center;gap:14px;
+}
+.os-task .step{font-size:10px;color:var(--os-mute);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+.os-task .ttl{font-family:var(--display);font-size:18px;font-weight:600;margin-bottom:4px;}
+.os-task .sub{font-size:11.5px;color:var(--os-mute);margin-bottom:8px;}
+.os-task .cta{color:var(--os-green);font-weight:600;font-size:12.5px;}
+.os-task .avatar{
+  width:54px;height:54px;border-radius:50%;
+  background: var(--os-cream);
+  border: 1px solid var(--os-line);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--os-mute);font-size:20px;
+  flex-shrink:0;
+}
+
+/* Bodyguard modal replica */
+.os-modal{
+  background: white;
+  border-radius: 18px;
+  padding: 18px 16px;
+  border: 1px solid var(--os-line);
+}
+.os-modal-head{display:flex;align-items:flex-start;gap:8px;margin-bottom:14px;}
+.os-modal-head .ic{
+  width:24px;height:24px;border-radius:50%;
+  background: var(--os-tan);
+  color: var(--accent);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;font-size:12px;
+}
+.os-modal-head .ttl{font-family:var(--display);font-size:16px;font-weight:600;}
+.os-modal-head .sub{font-size:11px;color:var(--os-mute);}
+.os-modal-tabs{
+  display:grid;grid-template-columns:1fr 1fr;gap:0;
+  border-radius:10px;overflow:hidden;
+  background: var(--os-cream-2);
+  border: 1px solid var(--os-line);
+  margin-bottom: 14px;
+}
+.os-modal-tabs .t{
+  text-align:center;padding:10px;font-size:12px;color:var(--os-mute);
+}
+.os-modal-tabs .t.on{background:white;color:var(--os-ink);font-weight:600;border:1px solid var(--os-line);margin:-1px;border-radius:10px;}
+
+.os-bg-msg{
+  background: var(--os-tan);
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--os-ink-2);
+  margin-bottom: 10px;
+}
+.os-bg-input{
+  display:flex;gap:8px;align-items:center;
+  border: 1.5px solid var(--os-green);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 12px;
+  color: var(--os-mute);
+  background: white;
+}
+.os-bg-input .send{
+  margin-left:auto;
+  width:24px;height:24px;border-radius:50%;
+  background: var(--os-green-bg);
+  color: var(--os-green);
+  display:flex;align-items:center;justify-content:center;
+}
+.os-paste-hint{
+  display:flex;align-items:center;gap:6px;
+  font-size: 11px;color:var(--accent);
+  margin: 8px 0;
+}
+
+/* Vault list replica */
+.os-vault-row{
+  display:flex;align-items:center;gap:12px;
+  background: var(--os-card);
+  border: 1px solid var(--os-line);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+}
+.os-vault-row .ic{
+  width: 36px;height:36px;border-radius:50%;
+  background: var(--os-cream-2);
+  display:flex;align-items:center;justify-content:center;
+  color: var(--os-mute);font-size: 15px;
+}
+.os-vault-row .ttl{font-family:var(--display);font-size:13.5px;font-weight:600;}
+.os-vault-row .sub{font-size:10.5px;color:var(--os-mute);margin-top:1px;}
+.os-vault-row .arrow{margin-left:auto;color:var(--os-mute);font-size:14px;}
+
+.os-vault-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+.os-vault-action{
+  background: var(--os-cream-2);
+  border: 1px solid var(--os-line);
+  border-radius: 12px;
+  padding: 14px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--os-mute);
+}
+.os-vault-action .ic{font-size:16px;margin-bottom:4px;}
+
+/* screen carousel scroller */
+.screens{
+  display:flex;
+  gap: 14px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 4px 2px 16px;
+  margin: 0 -22px;
+  padding-left: 22px;
+  padding-right: 22px;
+  scrollbar-width: thin;
+}
+.screens::-webkit-scrollbar{height:6px;}
+.screens::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px;}
+.screens > .screen{
+  flex: 0 0 86%;
+  scroll-snap-align: start;
+  margin-bottom: 0;
+}
+.swipe-hint{
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--ink-dim);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  text-align: right;
+  padding-right: 4px;
+}
+
+/* ---------- LISTS ---------- */
+.checklist{list-style:none;padding:0;margin:6px 0 0;}
+.checklist li{
+  padding: 9px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 13.5px;
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  color: var(--ink);
+}
+.checklist li:last-child{border-bottom:none;}
+.checklist li .marker{
+  flex-shrink:0;
+  width:18px;height:18px;border-radius:4px;
+  background: var(--accent-soft);
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  display:flex;align-items:center;justify-content:center;
+  font-size: 11px;
+  font-weight:700;
+  margin-top: 1px;
+}
+.checklist li.done .marker{
+  background: var(--accent);
+  color: var(--bg);
+}
+.checklist li.done{color: var(--ink-dim);}
+.checklist li.queue .marker{
+  background: transparent;
+  border-color: var(--ink-dim);
+  color: var(--ink-dim);
+}
+
+/* ---------- TIMELINE / JOURNEY ---------- */
+.timeline{position:relative;padding-left: 22px;margin-top:8px;}
+.timeline::before{
+  content:'';
+  position: absolute;
+  left:7px;top:6px;bottom:6px;
+  width:2px;background:var(--line);
+}
+.timeline-item{
+  position:relative;
+  padding-bottom: 18px;
+}
+.timeline-item::before{
+  content:'';
+  position:absolute;
+  left:-22px;top:6px;
+  width:14px;height:14px;border-radius:50%;
+  background: var(--bg);
+  border: 2px solid var(--accent);
+}
+.timeline-item .date{
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--accent);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.timeline-item .ttl{
+  font-family: var(--display);
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.timeline-item .body{
+  font-size: 12.5px;
+  color: var(--ink-dim);
+  line-height: 1.55;
+}
+
+/* ---------- REVENUE FLOW ---------- */
+.flow{
+  display:grid;
+  gap:10px;
+  margin-top: 8px;
+}
+.flow-step{
+  display:flex;align-items:flex-start;gap:12px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg-2);
+}
+.flow-step .num{
+  flex-shrink:0;
+  width: 26px;height:26px;border-radius:50%;
+  background: var(--accent);
+  color: var(--bg);
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 12px;
+  display:flex;align-items:center;justify-content:center;
+}
+.flow-step .ttl{font-size:13.5px;font-weight:600;margin-bottom:3px;}
+.flow-step .body{font-size:12px;color:var(--ink-dim);line-height:1.5;}
+
+/* ---------- FEEDBACK FORM ---------- */
+.field{
+  display:block;
+  margin-bottom: 14px;
+}
+.field label{
+  display:block;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin-bottom: 6px;
+}
+.field input, .field textarea{
+  width:100%;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: var(--body);
+  transition: border .2s;
+}
+.field input:focus, .field textarea:focus{
+  outline: none;
+  border-color: var(--accent);
+}
+.field textarea{min-height:96px;resize:vertical;}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-family: var(--body);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: transform .15s, box-shadow .15s;
+}
+.btn:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(247,147,26,0.25);}
+.btn:active{transform:translateY(0);}
+.btn.ghost{
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+}
+
+.note{
+  background: var(--accent-soft);
+  border: 1px solid #5A3D1A;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 12.5px;
+  color: #FFE2BD;
+  line-height: 1.5;
+}
+.note strong{color: var(--accent);}
+
+/* ---------- TAB BAR ---------- */
+nav.tabs{
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  max-width: 480px;
+  margin: 0 auto;
+  background: rgba(11,11,15,0.92);
+  backdrop-filter: blur(14px);
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: repeat(5,1fr);
+  z-index: 50;
+}
+nav.tabs button{
+  background: none;
+  border: none;
+  color: var(--ink-dim);
+  padding: 10px 4px 12px;
+  cursor: pointer;
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  font-family: var(--body);
+  font-size: 9.5px;
+  letter-spacing: 0.3px;
+  font-weight: 500;
+  transition: color .2s;
+}
+nav.tabs button .ico{font-size: 18px;line-height:1;}
+nav.tabs button.active{color: var(--accent);}
+nav.tabs button.active .ico{filter: drop-shadow(0 0 6px var(--accent));}
+
+/* ---------- FOOTER PILL ---------- */
+.pill{
+  display:inline-block;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  border: 1px solid #5A3D1A;
+  margin-right: 6px;
+}
+.tag-row{margin-top:10px;}
+
+a.link{color:var(--accent);text-decoration:none;border-bottom:1px dashed var(--accent);}
+
+/* ---------- SCREENS-SHOT FRAMING ---------- */
+.divider{
+  height:1px;background:var(--line);
+  margin: 22px 0;
+}
+.subhead{
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin: 18px 0 10px;
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ========== HEADER ========== -->
+<header class="top">
+  <div class="eyebrow">MBA · AI · Show & Tell</div>
+  <div class="brand-row">
+    <span class="dot"></span>
+    <div class="brand">OneStep<span style="color:var(--accent)">.</span>today</div>
+  </div>
+  <div class="tagline">Built one-step-at-a-time with Claude as my coding partner</div>
+</header>
+
+<!-- ========== 1. OVERVIEW ========== -->
+<section class="view active" id="overview">
+  <div class="hero">
+    <div class="eyebrow" style="margin-bottom:10px;">The Pitch</div>
+    <h1>A financial wellness app, <em>one step</em> at a time.</h1>
+    <p>OneStep helps people build a complete picture of their money — not in a spreadsheet, not in a budget — but in 12 small daily steps. Insurance one day. Housing the next. Food the day after.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="num">12</div><div class="lbl">Sections</div></div>
+      <div class="hero-stat"><div class="num">37+</div><div class="lbl">Tip categories</div></div>
+      <div class="hero-stat"><div class="num">3</div><div class="lbl">AI intents</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="meta">The problem</div>
+    <h3>Most people don't know what they spend.</h3>
+    <p>Budgeting apps demand a full setup on day one. Most people quit before they finish. OneStep flips it: complete one section per day, earn points and streaks, and get a real picture of your finances within two weeks — without the dread.</p>
+  </div>
+
+  <div class="card">
+    <div class="meta">The solution</div>
+    <h3>Guided, gamified, household-aware.</h3>
+    <p>12 financial sections (rent, transport, insurance, debt…) collected step by step. Households can pool data. Bodyguard — the AI layer — coaches users to reduce costs, build a buffer, or invest the surplus. No advice, no products. Just clarity.</p>
+  </div>
+
+  <div class="card">
+    <div class="meta">Why it matters</div>
+    <h3>The Vault unlocks the business model.</h3>
+    <p>Once a user uploads their actual policy or statement, OneStep can compare it, generate an anonymised lead package with consent, and route it to a supplier. Supplier pays a lead fee. A portion flows back to the consumer as rewards. Everyone wins.</p>
+  </div>
+
+  <div class="subhead">Live screens — captured from onestep.today</div>
+  <div class="swipe-hint">← swipe →</div>
+  <div class="screens">
+
+    <!-- SCREEN 1: HOME with Income Statement expanded -->
+    <div class="screen">
+      <div class="screen-caption">Home · Income Statement</div>
+      <div class="screen-icons"><span>🛡</span><span>👥</span><span>👤</span><span>↪</span></div>
+
+      <div class="os-stmt-head">
+        <div class="ttl">Income Statement</div>
+        <div class="toggle">Hide ▲</div>
+      </div>
+
+      <div class="os-scope">
+        <div class="opt"><strong>Household (Shared)</strong>Invite a family member to enable</div>
+        <div class="opt on"><strong>Me (Private)</strong>Only you for now</div>
+      </div>
+
+      <div class="os-formula">Money in − Money out = what's left</div>
+
+      <div class="os-tiles">
+        <div class="os-tile in">
+          <div class="ic">↗</div>
+          <div class="lbl">Money in</div>
+          <div class="val">ZAR 1,000</div>
+        </div>
+        <div class="os-tile out">
+          <div class="ic">↘</div>
+          <div class="lbl">Money out</div>
+          <div class="val">ZAR 0</div>
+        </div>
+        <div class="os-tile left">
+          <div class="ic">▦</div>
+          <div class="lbl">Cash left now</div>
+          <div class="val">ZAR 1,000</div>
+        </div>
+      </div>
+
+      <div class="os-bg-btn">🛡 Bodyguard</div>
+      <div class="os-bg-sub">Review targets and find opportunities to save</div>
+
+      <div class="os-rows">
+        <div class="os-row head">
+          <div>SECTION</div>
+          <div class="col-current">CURRENT</div>
+          <div class="col-target">TARGET</div>
+          <div class="col-change">CHANGE</div>
+        </div>
+        <div class="os-row">
+          <div class="col-section"><em>My Profile</em> <span class="next">Next</span></div>
+          <div class="col-current em">—</div>
+          <div class="col-target em">—</div>
+          <div class="col-change em">—</div>
+        </div>
+        <div class="os-row">
+          <div class="col-section" style="color:var(--os-green);font-weight:600;">Income</div>
+          <div class="col-current income-val">+ZAR 1,000</div>
+          <div class="col-target em">—</div>
+          <div class="col-change em">—</div>
+        </div>
+        <div class="os-row">
+          <div class="col-section">Housing</div>
+          <div class="col-current">ZAR 0</div>
+          <div class="col-target em">—</div>
+          <div class="col-change em">—</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN 2: HOME bottom — Vault + Today's Task -->
+    <div class="screen">
+      <div class="screen-caption">Home · Vault + Today</div>
+      <div class="screen-icons"><span>🛡</span><span>👥</span><span>👤</span><span>↪</span></div>
+
+      <div class="os-vault">
+        <div class="lt">
+          <div class="ic">🛡</div>
+          <div>
+            <div class="ttl">Vault</div>
+            <div class="sub">Upload and manage your documents</div>
+          </div>
+        </div>
+        <div class="cta">Open Vault →</div>
+      </div>
+
+      <div class="os-stmt-head" style="margin-top:14px;">
+        <div class="ttl">Onboarding Progress</div>
+        <div class="toggle">Show ▼</div>
+      </div>
+      <div class="os-card" style="text-align:center;font-size:12.5px;color:var(--os-ink-2);margin-bottom:14px;">0/12 sections done</div>
+
+      <div class="os-task">
+        <div>
+          <div class="step">Step 1 of 12</div>
+          <div class="ttl">My Profile</div>
+          <div class="sub">Joining data</div>
+          <div class="cta">Start today's task →</div>
+        </div>
+        <div class="avatar">👤</div>
+      </div>
+    </div>
+
+    <!-- SCREEN 3: Bodyguard Modal -->
+    <div class="screen">
+      <div class="screen-caption">Bodyguard · Snapshot</div>
+      <div class="os-modal">
+        <div class="os-modal-head">
+          <div class="ic">🛡</div>
+          <div>
+            <div class="ttl">Bodyguard</div>
+            <div class="sub">Review your targets and find opportunities to save</div>
+          </div>
+        </div>
+
+        <div style="background:var(--os-green-bg);border-radius:12px;padding:14px;margin-bottom:14px;border:1px solid var(--os-green-soft);">
+          <div style="color:var(--os-green);font-weight:600;font-size:13.5px;margin-bottom:6px;">✓ You're in good shape!</div>
+          <div style="font-size:11.5px;line-height:1.5;color:var(--os-ink-2);">You have money left over each month. Focus on building savings and optimizing where you can.</div>
+        </div>
+
+        <div class="os-tiles" style="margin-bottom:14px;">
+          <div class="os-tile in" style="padding:10px 6px;"><div class="lbl">Income</div><div class="val" style="font-size:12px;">ZAR 1,000</div></div>
+          <div class="os-tile out" style="padding:10px 6px;"><div class="lbl">Expenses</div><div class="val" style="font-size:12px;">ZAR 0</div></div>
+          <div class="os-tile left" style="padding:10px 6px;"><div class="lbl">Left over</div><div class="val" style="font-size:12px;">ZAR 1,000</div></div>
+        </div>
+
+        <div style="text-align:center;font-size:11px;color:var(--os-mute);margin-bottom:12px;">Complete expense sections to see your pressure points here</div>
+
+        <div style="display:grid;grid-template-columns:1fr auto;gap:8px;">
+          <div class="os-bg-btn" style="margin-bottom:0;">💬 Bodyguard</div>
+          <div style="border:1px solid var(--os-line);border-radius:999px;padding:12px 18px;font-size:13px;color:var(--os-ink-2);">Close</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN 4: Bodyguard Ask Tab -->
+    <div class="screen">
+      <div class="screen-caption">Bodyguard · Ask (AI Chat)</div>
+      <div class="os-modal">
+        <div class="os-modal-head">
+          <div class="ic">🛡</div>
+          <div>
+            <div class="ttl">Bodyguard</div>
+            <div class="sub">Your financial assistant</div>
+          </div>
+        </div>
+
+        <div class="os-modal-tabs">
+          <div class="t">⊟ Plan</div>
+          <div class="t on">💬 Ask</div>
+        </div>
+
+        <div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:10px;">
+          <div style="width:22px;height:22px;border-radius:50%;background:var(--os-tan);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;">🛡</div>
+          <div class="os-bg-msg" style="flex:1;margin-bottom:0;">
+            Your current finances: Income ZAR 1,000/month, expenses ZAR 0/month, ZAR 1,000 left over. How can I help? You can ask me anything about your finances, or paste text from a bill or contract and I'll analyze it.
+          </div>
+        </div>
+
+        <div class="os-paste-hint">📋 Paste text now. I can extract key details.</div>
+
+        <div class="os-bg-input">
+          Ask me anything…
+          <span class="send">➤</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN 5: Vault -->
+    <div class="screen">
+      <div class="screen-caption">Vault · Folders</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+        <div style="font-family:var(--display);font-size:18px;font-weight:600;">Vault</div>
+        <div class="screen-icons" style="margin:0;"><span>🛡</span><span>👥</span><span>👤</span><span>↪</span></div>
+      </div>
+      <div style="font-size:12px;color:var(--os-mute);margin-bottom:14px;line-height:1.5;">Your private vault. Store bills, contracts, and proofs here. Organized by section.</div>
+
+      <div class="os-vault-actions">
+        <div class="os-vault-action"><div class="ic">+</div>New Case</div>
+        <div class="os-vault-action"><div class="ic">⊞</div>View Cases</div>
+      </div>
+
+      <div class="os-vault-row">
+        <div class="ic">👤</div>
+        <div><div class="ttl">My Profile</div><div class="sub">Joining data</div></div>
+        <div class="arrow">›</div>
+      </div>
+      <div class="os-vault-row">
+        <div class="ic">💳</div>
+        <div><div class="ttl">Income</div><div class="sub">All income sources</div></div>
+        <div class="arrow">›</div>
+      </div>
+      <div class="os-vault-row">
+        <div class="ic">🏠</div>
+        <div><div class="ttl">Housing</div><div class="sub">Rent, bond, levy</div></div>
+        <div class="arrow">›</div>
+      </div>
+      <div class="os-vault-row">
+        <div class="ic">⚡</div>
+        <div><div class="ttl">Utilities</div><div class="sub">Electricity, water, basics</div></div>
+        <div class="arrow">›</div>
+      </div>
+      <div class="os-vault-row">
+        <div class="ic">🍽</div>
+        <div><div class="ttl">Food</div><div class="sub">Groceries, takeaways</div></div>
+        <div class="arrow">›</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="note">
+    <strong>For my classmates:</strong> tap the tabs below to see the build journey, the live product, the revenue model, and leave feedback. This whole show-and-tell was built in a single conversation with Claude — same approach as Cotrugli Navigator.
+  </div>
+</section>
+
+<!-- ========== 2. JOURNEY ========== -->
+<section class="view" id="journey">
+  <div class="eyebrow">Tab 02</div>
+  <h2 class="section-title">Built <em>with Claude</em>, not just by Claude.</h2>
+  <p class="lede">A real timeline of how OneStep grew from a Replit prototype into an AWS-bound product. AI did the heavy code lifting; product direction and judgement stayed with me.</p>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="date">Phase 01 · Foundation</div>
+      <div class="ttl">12 sections + onboarding</div>
+      <div class="body">React + Vite frontend, Express backend, Postgres + Drizzle. Mobile-first, max-width 448px. Zustand for state, shadcn/ui for components.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="date">Phase 02 · Households</div>
+      <div class="ttl">Aggregates API + scope toggle</div>
+      <div class="body">Personal vs household view. Server-side aggregation in cents. Authorization keyed off session, not client. Regression tests for cross-user overwrites.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="date">Phase 03 · Bodyguard AI</div>
+      <div class="ttl">Three intents, structured responses</div>
+      <div class="body">REDUCE_COSTS · BUILD_BUFFER · INVEST_ALLOCATE. Category-aware tips library (37+ categories). Strict guardrails: no income → "add income first" not generic advice.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="date">Phase 04 · Vault</div>
+      <div class="ttl">Uploads + Support Cases + consent</div>
+      <div class="body">Store-first architecture: uploads succeed even if extraction fails. Support Cases bundle docs with explicit consent. Suppliers never browse the Vault — only see Case views.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="date">Phase 05 · Migration</div>
+      <div class="ttl">Replit → AWS (in progress)</div>
+      <div class="body">Local file storage moves to S3. Replit-style trust proxy gets replaced with proper deployment config. Codebase audit for time-to-complete language (one intentional exception remains).</div>
+    </div>
+    <div class="timeline-item">
+      <div class="date">Phase 06 · Next</div>
+      <div class="ttl">Proof Ledger → Credit → Rewards</div>
+      <div class="body">Tag uploads as proof events. Surface credit score flags. Build improvement engine. Add behaviour scoring. Then — and only then — turn on rewards.</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="subhead">How I work with Claude</div>
+  <div class="card">
+    <h3>Claude in IntelliJ (Junie) for code extraction.</h3>
+    <p>I ask Junie to dump schema, routes, recent commits. I paste the output here. Claude reads it, suggests the next layer, writes the code.</p>
+  </div>
+  <div class="card">
+    <h3>Claude in Chrome for live verification.</h3>
+    <p>Once authenticated, Claude can open the live app, read the page, and check that what's shipped matches what was specified.</p>
+  </div>
+  <div class="card">
+    <h3>Claude in chat for product thinking.</h3>
+    <p>Spec writing, build order, edge cases, business model. The thinking partner — not just the executor.</p>
+  </div>
+</section>
+
+<!-- ========== 3. PRODUCT ========== -->
+<section class="view" id="product">
+  <div class="eyebrow">Tab 03</div>
+  <h2 class="section-title">What's <em>built</em>, what's next.</h2>
+  <p class="lede">Live system, not a mockup. Here's the honest state of the product.</p>
+
+  <div class="subhead">Live & shipping</div>
+  <ul class="checklist">
+    <li class="done"><span class="marker">✓</span><div><strong>12-section onboarding</strong> with daily progression and streaks</div></li>
+    <li class="done"><span class="marker">✓</span><div><strong>Household aggregates</strong> with personal/household scope toggle</div></li>
+    <li class="done"><span class="marker">✓</span><div><strong>Bodyguard AI</strong> with three intents and category-aware tips</div></li>
+    <li class="done"><span class="marker">✓</span><div><strong>Vault uploads</strong> with store-first architecture</div></li>
+    <li class="done"><span class="marker">✓</span><div><strong>Support Cases</strong> with consent + redaction defaults</div></li>
+    <li class="done"><span class="marker">✓</span><div><strong>Multi-currency</strong> support (ZAR, USD, EUR, GBP, AUD, CAD + custom)</div></li>
+  </ul>
+
+  <div class="subhead">In build queue</div>
+  <ul class="checklist">
+    <li><span class="marker">5</span><div><strong>Proof Ledger</strong> — tag uploads as normalized proof events</div></li>
+    <li><span class="marker">6</span><div><strong>Credit score visibility</strong> — show flags, utilisation, missed payments</div></li>
+    <li><span class="marker">7</span><div><strong>Improvement engine</strong> — actions that drive credit + behaviour score</div></li>
+    <li><span class="marker">8</span><div><strong>Behaviour scoring model</strong> — the trust layer</div></li>
+    <li><span class="marker">9</span><div><strong>Rewards</strong> — outcome-based, only after measurement exists</div></li>
+  </ul>
+
+  <div class="subhead">Infrastructure</div>
+  <ul class="checklist queue">
+    <li class="queue"><span class="marker">A</span><div>S3 migration for Vault file storage</div></li>
+    <li class="queue"><span class="marker">B</span><div>Full AWS deployment config (Dockerfile / ECS)</div></li>
+  </ul>
+
+  <div class="tag-row">
+    <span class="pill">React + Vite</span>
+    <span class="pill">Express</span>
+    <span class="pill">Postgres</span>
+    <span class="pill">Drizzle ORM</span>
+  </div>
+</section>
+
+<!-- ========== 4. REVENUE ========== -->
+<section class="view" id="revenue">
+  <div class="eyebrow">Tab 04</div>
+  <h2 class="section-title">The <em>flywheel</em>.</h2>
+  <p class="lede">OneStep's revenue model isn't ads, isn't subscriptions. It's a lead generation engine — measurement-first, consent-driven, with rewards flowing back to the consumer.</p>
+
+  <div class="flow">
+    <div class="flow-step">
+      <div class="num">1</div>
+      <div>
+        <div class="ttl">Bodyguard spots an expensive line item</div>
+        <div class="body">"Your car insurance is 12% of monthly expenses. Want a better quote?"</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="num">2</div>
+      <div>
+        <div class="ttl">User uploads existing policy to Vault</div>
+        <div class="body">Store-first: works even if extraction fails. Module-safe fallback prompts otherwise.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="num">3</div>
+      <div>
+        <div class="ttl">Anonymised lead package generated</div>
+        <div class="body">Minimum-safe dataset only: age band, area, product type, cost band, constraints. No raw doc. No personal info. Consent toggle required.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="num">4</div>
+      <div>
+        <div class="ttl">Submitted to supplier or broker</div>
+        <div class="body">Suppliers never browse the Vault. They only see the Case view, scoped to what consent allows.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="num">5</div>
+      <div>
+        <div class="ttl">User sees comparison + recommendation</div>
+        <div class="body">Side-by-side. Honest. No invented numbers, no product push.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="num">6</div>
+      <div>
+        <div class="ttl">User accepts → supplier pays lead fee</div>
+        <div class="body">A portion flows to the consumer as rewards. The user gets paid for sharing their own data on their own terms.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="card">
+    <div class="meta">Why this works</div>
+    <h3>The consumer is the customer, not the product.</h3>
+    <p>Most fintech monetises by selling user data or pushing products. OneStep monetises by lowering bills and sharing the upside. Trust compounds. So does the moat.</p>
+  </div>
+
+  <div class="note">
+    <strong>Sequencing matters.</strong> Rewards only turn on after Proof Ledger + behaviour scoring exist. Otherwise rewards become a gimmick. Measurement first, money second.
+  </div>
+</section>
+
+<!-- ========== 5. FEEDBACK ========== -->
+<section class="view" id="feedback">
+  <div class="eyebrow">Tab 05</div>
+  <h2 class="section-title">Tell me <em>what's missing</em>.</h2>
+  <p class="lede">Same question Nardus asked me about Cotrugli Navigator: what would you add? What would make this more useful? Drop a note — it goes into a list I review weekly.</p>
+
+  <div class="field">
+    <label>Your name (optional)</label>
+    <input type="text" id="fb-name" placeholder="e.g. Steve" />
+  </div>
+  <div class="field">
+    <label>What would you add to OneStep?</label>
+    <textarea id="fb-add" placeholder="Feature, screen, integration, anything…"></textarea>
+  </div>
+  <div class="field">
+    <label>What's missing or unclear?</label>
+    <textarea id="fb-miss" placeholder="Could be the pitch, the product, the model…"></textarea>
+  </div>
+  <div class="field">
+    <label>Would you use this?</label>
+    <input type="text" id="fb-use" placeholder="Yes / No / Only if…" />
+  </div>
+
+  <button class="btn" onclick="saveFeedback()">Save feedback locally</button>
+  <button class="btn ghost" onclick="exportFeedback()" style="margin-left:6px;">Export as text</button>
+
+  <div class="divider"></div>
+
+  <div class="subhead">Saved notes</div>
+  <div id="feedback-list" style="font-size:13px;color:var(--ink-dim);">No feedback yet. Be the first.</div>
+
+  <div class="divider"></div>
+
+  <div class="card">
+    <div class="meta">Project links</div>
+    <h3>Want to dig deeper?</h3>
+    <p style="margin-bottom:10px;">Live app: <a class="link" href="https://onestep.today" target="_blank">onestep.today</a> (login required)</p>
+    <p>Spec doc: OneStep Bodyguard Spec v1 — Vault Uploads + Cases (in project files)</p>
+  </div>
+
+  <div class="note" style="margin-top:14px;">
+    <strong>A note on AI-as-partner:</strong> Cotrugli Navigator and OneStep are both built the same way — fast, iteratively, with Claude doing the typing and me doing the steering. The interesting question isn't <em>"can AI build apps"</em>. It's <em>"what should we build now that we can?"</em>
+  </div>
+</section>
+
+<!-- ========== TAB BAR ========== -->
+<nav class="tabs">
+  <button class="active" data-tab="overview"><span class="ico">◐</span><span>Pitch</span></button>
+  <button data-tab="journey"><span class="ico">↗</span><span>Journey</span></button>
+  <button data-tab="product"><span class="ico">▦</span><span>Product</span></button>
+  <button data-tab="revenue"><span class="ico">⌬</span><span>Model</span></button>
+  <button data-tab="feedback"><span class="ico">✎</span><span>Feedback</span></button>
+</nav>
+
+</div>
+
+<script>
+// Tab switching
+const tabs = document.querySelectorAll('nav.tabs button');
+const views = document.querySelectorAll('.view');
+tabs.forEach(t => {
+  t.addEventListener('click', () => {
+    tabs.forEach(x => x.classList.remove('active'));
+    views.forEach(v => v.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById(t.dataset.tab).classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+});
+
+// Feedback (in-memory only — no localStorage per artifact rules)
+const feedback = [];
+function renderFeedback(){
+  const el = document.getElementById('feedback-list');
+  if(feedback.length === 0){
+    el.innerHTML = 'No feedback yet. Be the first.';
+    return;
+  }
+  el.innerHTML = feedback.map((f,i) => `
+    <div class="card" style="margin-bottom:10px;">
+      <div class="meta">${f.name || 'Anonymous'} · #${i+1}</div>
+      ${f.add ? `<p style="margin-bottom:6px;"><strong style="color:var(--ink);">Add:</strong> ${escapeHTML(f.add)}</p>` : ''}
+      ${f.miss ? `<p style="margin-bottom:6px;"><strong style="color:var(--ink);">Missing:</strong> ${escapeHTML(f.miss)}</p>` : ''}
+      ${f.use ? `<p><strong style="color:var(--ink);">Use it?:</strong> ${escapeHTML(f.use)}</p>` : ''}
+    </div>
+  `).join('');
+}
+function escapeHTML(s){return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function saveFeedback(){
+  const name = document.getElementById('fb-name').value.trim();
+  const add = document.getElementById('fb-add').value.trim();
+  const miss = document.getElementById('fb-miss').value.trim();
+  const use = document.getElementById('fb-use').value.trim();
+  if(!add && !miss && !use){alert('Add at least one note before saving.');return;}
+  feedback.unshift({name, add, miss, use, ts: Date.now()});
+  ['fb-name','fb-add','fb-miss','fb-use'].forEach(id => document.getElementById(id).value = '');
+  renderFeedback();
+}
+function exportFeedback(){
+  if(feedback.length === 0){alert('Nothing to export yet.');return;}
+  const text = feedback.map((f,i) => 
+    `#${i+1} — ${f.name || 'Anonymous'}\n` +
+    (f.add ? `Add: ${f.add}\n` : '') +
+    (f.miss ? `Missing: ${f.miss}\n` : '') +
+    (f.use ? `Use it?: ${f.use}\n` : '')
+  ).join('\n---\n\n');
+  const blob = new Blob([text], {type:'text/plain'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'onestep-feedback.txt';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+</script>
+</body>
+</html>
